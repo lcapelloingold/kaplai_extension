@@ -1,4 +1,4 @@
-import { levelOf, originToCheck } from "./check.js";
+import { isShownPage, levelOf, originToCheck } from "./check.js";
 
 // Production. Against a local backend: "http://localhost:8000/api/analysis/url-check/".
 const API_URL = "https://d19ms4qdhptkqy.cloudfront.net/api/analysis/url-check/";
@@ -66,14 +66,8 @@ async function check(tabId, url) {
   }
 }
 
-chrome.webNavigation.onCommitted.addListener(({ tabId, frameId, url }) => {
-  if (frameId === 0) check(tabId, url);
-});
-
-// A prerendered page that gets shown swaps the tab instead of committing.
-chrome.webNavigation.onTabReplaced.addListener(async ({ tabId }) => {
-  const frame = await chrome.webNavigation.getFrame({ tabId, frameId: 0 });
-  if (frame) check(tabId, frame.url);
+chrome.webNavigation.onCommitted.addListener((details) => {
+  if (isShownPage(details)) check(details.tabId, details.url);
 });
 
 chrome.tabs.onRemoved.addListener((tabId) => {

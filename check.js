@@ -51,6 +51,14 @@ export function originToCheck(url) {
   return parsed.origin;
 }
 
+// Whether a navigation event is about the page the tab is showing. Not
+// `frameId === 0`: Chrome also commits pages it prerenders in the background,
+// and commits them again, as "active", when they are shown (same for pages
+// restored with the back button).
+export function isShownPage({ frameType, documentLifecycle }) {
+  return frameType === "outermost_frame" && documentLifecycle === "active";
+}
+
 // Never "safe": finding nothing proves nothing, same as NO_DETECTION in Kaplai.
 export function levelOf(result) {
   if (result.verdict === "MALICIOUS") return "danger";

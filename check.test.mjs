@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { REASONS, levelOf, originToCheck } from "./check.js";
+import { REASONS, isShownPage, levelOf, originToCheck } from "./check.js";
 
 test("only the origin is sent", () => {
   assert.equal(originToCheck("https://sitio.com/buscar?q=secreto#x"), "https://sitio.com");
@@ -43,6 +43,18 @@ test("local and private hosts are not sent", () => {
 
 test("a public address next to a private range is checked", () => {
   assert.equal(originToCheck("http://172.32.0.1/"), "http://172.32.0.1");
+});
+
+test("the page shown in the tab is checked", () => {
+  assert.equal(isShownPage({ frameType: "outermost_frame", documentLifecycle: "active" }), true);
+});
+
+test("a page prerendered in the background is not checked until it is shown", () => {
+  assert.equal(isShownPage({ frameType: "outermost_frame", documentLifecycle: "prerender" }), false);
+});
+
+test("a frame inside the page is not checked", () => {
+  assert.equal(isShownPage({ frameType: "sub_frame", documentLifecycle: "active" }), false);
 });
 
 test("a listed site is dangerous", () => {
