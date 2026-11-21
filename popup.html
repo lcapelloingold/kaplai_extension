@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Kaplai</title>
+    <style>
+      :root {
+        --bg: #ffffff;
+        --text: #1f2328;
+        --muted: #59636e;
+        --danger: #c5221f;
+        --suspicious: #b06000;
+        --clear: #1a73e8;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #1f2328;
+          --text: #e6edf3;
+          --muted: #9198a1;
+          --danger: #ff8a80;
+          --suspicious: #fdd663;
+          --clear: #8ab4f8;
+        }
+      }
+      body {
+        width: 300px;
+        margin: 0;
+        padding: 16px;
+        background: var(--bg);
+        color: var(--text);
+        font: 14px/1.45 system-ui, sans-serif;
+      }
+      header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      #host {
+        margin: 12px 0 4px;
+        word-break: break-all;
+        color: var(--muted);
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 18px;
+      }
+      h1.danger { color: var(--danger); }
+      h1.suspicious { color: var(--suspicious); }
+      h1.clear { color: var(--clear); }
+      ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      p {
+        margin: 0;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <header><img src="icons/icon16.png" alt="" width="16" height="16" /> Kaplai</header>
+    <div id="host"></div>
+    <h1 id="title"></h1>
+    <ul id="reasons"></ul>
+    <p id="note"></p>
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
